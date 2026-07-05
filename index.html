@@ -81,6 +81,87 @@
             box-shadow: 0 2px 10px rgba(238, 108, 77, 0.3);
         }
 
+        /* MODAL STYLES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #000;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: #EE6C4D;
+            margin-bottom: 20px;
+            margin-top: 0;
+        }
+
+        .modal iframe {
+            width: 100%;
+            height: 180px;
+            border-radius: 8px;
+        }
+
         /* SECTION 1: COUVERTURE */
         .cover {
             background: linear-gradient(135deg, #1B3A5C 0%, #0f2438 100%);
@@ -735,7 +816,16 @@
 
     <!-- JINGLE -->
     <div class="audio-label">🎵 Jingle de bienvenue</div>
-    <a href="https://voca.ro/1jlig7GtaTPU" target="_blank" class="audio-button">🎵 ÉCOUTER LE JINGLE</a>
+    <button class="audio-button" onclick="openModal('jingle')">🎵 ÉCOUTER LE JINGLE</button>
+
+    <!-- MODAL JINGLE -->
+    <div id="modalJingle" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('jingle')">&times;</button>
+            <h2 class="modal-title">🎵 Jingle de bienvenue</h2>
+            <iframe src="https://voca.ro/1jlig7GtaTPU" frameborder="0" allow="autoplay"></iframe>
+        </div>
+    </div>
 </section>
 
 <!-- SECTION 2: HISTOIRE RAPHAEL -->
@@ -747,13 +837,31 @@
     <div class="audio-section">
         <h3>💡 À propos des histoires de l'été</h3>
         <div class="audio-label">Comprendre la démarche: pourquoi ces histoires?</div>
-        <a href="https://voca.ro/17GjR2nO359G" target="_blank" class="audio-button">💬 ÉCOUTER L'EXPLICATIF</a>
+        <button class="audio-button" onclick="openModal('explicatif')">💬 ÉCOUTER L'EXPLICATIF</button>
+    </div>
+
+    <!-- MODAL EXPLICATIF -->
+    <div id="modalExplicatif" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('explicatif')">&times;</button>
+            <h2 class="modal-title">💡 À propos des histoires de l'été</h2>
+            <iframe src="https://voca.ro/17GjR2nO359G" frameborder="0" allow="autoplay"></iframe>
+        </div>
     </div>
 
     <div class="audio-section">
         <h3>🎙️ L'histoire</h3>
         <div class="audio-label">Écoute comment Raphael a appris à respirer</div>
-        <a href="https://voca.ro/1gOejTTEo4kQ" target="_blank" class="audio-button">📖 ÉCOUTER L'HISTOIRE</a>
+        <button class="audio-button" onclick="openModal('histoire')">📖 ÉCOUTER L'HISTOIRE</button>
+    </div>
+
+    <!-- MODAL HISTOIRE -->
+    <div id="modalHistoire" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('histoire')">&times;</button>
+            <h2 class="modal-title">📖 L'histoire de Raphael</h2>
+            <iframe src="https://voca.ro/1gOejTTEo4kQ" frameborder="0" allow="autoplay"></iframe>
+        </div>
     </div>
 </section>
 
@@ -1140,6 +1248,25 @@ document.getElementById('nextBtn').onclick = nextQuestion;
 document.getElementById('restartBtn').onclick = restartQuiz;
 
 loadQuestion();
+</script>
+
+<script>
+function openModal(modalName) {
+    const modalId = 'modal' + modalName.charAt(0).toUpperCase() + modalName.slice(1);
+    document.getElementById(modalId).classList.add('show');
+}
+
+function closeModal(modalName) {
+    const modalId = 'modal' + modalName.charAt(0).toUpperCase() + modalName.slice(1);
+    document.getElementById(modalId).classList.remove('show');
+}
+
+// Fermer la modal en cliquant en dehors du contenu
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+    }
+}
 </script>
 
 </body>
